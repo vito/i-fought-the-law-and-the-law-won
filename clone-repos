@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$1" ]; then
+  echo "usage: $0 <org>" >&2
+  exit 1
+fi
+
+root="$(cd $(dirname $0) && pwd)"
+
+mkdir -p repos
+
+for repo in $($root/list-repos $1); do
+  if ! [ -d repos/${repo} ]; then
+    git clone https://github.com/concourse/${repo} repos/${repo}
+  else
+    echo "$1/${repo} already cloned"
+  fi
+done

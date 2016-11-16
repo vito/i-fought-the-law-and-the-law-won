@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$1" ]; then
+  echo "usage: $0 <org>" >&2
+  exit 1
+fi
+
+curl -s "https://api.github.com/users/$1/repos?per_page=200" | jq -r '.[].name'
